@@ -5,67 +5,46 @@ import dosa from "/src/assests/dosa.jpg";
 
 const App = () => {
 
-  const [data, setData] = useState([{
-    name: "Special Dosa",
-    price: 60,
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    image: "/src/assests/dosa.jpg",
-    type: "breakfast",
-  },
-  {
-    name: "Ghee Idli",
-    price: 40,
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    image: "/src/assests/idli.jpg",
-    type: "breakfast",
-  },
-  {
-    name: "Ghee Idli",
-    price: 40,
-    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    image: "/src/assests/idli.jpg",
-    type: "breakfast",
-  },
-  ])
+  const [data, setData] = useState('')
 
   const foodData = [{
     name: "Special Dosa",
-    price: 60,
+    price: "60",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
     image: "/src/assests/dosa.jpg",
     type: "breakfast",
   },
   {
     name: "Ghee Idli",
-    price: 40,
+    price: "40",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
     image: "/src/assests/idli.jpg",
     type: "breakfast",
   },
   {
     name: "Veg Cheese Sandwich",
-    price: 40,
+    price: "40",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
     image: "/src/assests/sandwich.jpg",
     type: "breakfast",
   },
   {
     name: "Pure Veg Meal",
-    price: 95,
+    price: "95",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
     image: "/src/assests/Pure-Veg-Meals.jpg",
-    type: "Lunch",
+    type: "lunch",
   },
   {
-    name: "RajmaChaval",
-    price: 69,
+    name: "Rajma Chaval",
+    price: "69",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
     image: "/src/assests/RajamChaval.jpg",
-    type: "Lunch",
+    type: "lunch",
   },
   {
     name: "Roti Veg Curry",
-    price: 79,
+    price: "79",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
     image: "/src/assests/dosa.jpg",
     image: "/src/assests/roti-veg-curry.jpg",
@@ -73,26 +52,70 @@ const App = () => {
   },
   {
     name: "Paneer Roti",
-    price: 120,
+    price: "120",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
     image: "/src/assests/Desi-Paneer-Roti.jpg",
     type: "dinner",
   },
   {
     name: "Veg Biryani",
-    price: 150,
+    price: "150",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
     image: "/src/assests/veg-biryani.jpg",
     type: "dinner",
   },
   {
     name: "Maharaja Thali",
-    price: 250,
+    price: "250",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
     image: "/src/assests/Maharaja-Thali.jpg",
     type: "dinner",
   },
   ]
+  
+// handling user selection option 
+  const handleClick = (val) => {
+    console.log("clicked")
+    const expr = val;
+    switch (expr) {
+      case "all":
+        setData(foodData);
+        break;
+
+      case "breakfast":
+        setData(foodData.filter((elem) => elem.type == expr))
+
+      case "lunch":
+        setData(foodData.filter((elem) => elem.type == expr))
+
+      case "dinner":
+        setData(foodData.filter((elem) => elem.type == expr))
+    }
+
+  }
+
+// handle search method
+// this function has mutiple object search
+  const handleSearch = (inVal)=>{
+    let strVal = inVal.toLowerCase()
+    console.log("the input value", strVal)
+    if(strVal.length >= 3){
+    let searchVal = foodData.filter((elem)=> Object.values(elem).some(val => val.toLowerCase().includes(strVal)))
+      if(searchVal.length >= 1){
+        setData(searchVal)
+      console.log("the search array", searchVal)
+      }
+    }
+    else{
+      setData(foodData)
+    }
+    
+  }
+
+  console.log("the food items", data)
+  useEffect(() => {
+    setData(foodData)
+  }, [])
 
   return (
     <>
@@ -102,21 +125,21 @@ const App = () => {
             <h3 className="logoh3">Food Choix</h3>
           </div>
           <div className="search">
-            <input type="text" placeholder="search" />
+            <input type="text" placeholder="search" onChange={(e)=>{handleSearch(e.target.value)}}/>
           </div>
         </TopContainer>
         <FilterContainer>
-          <button>All</button>
-          <button>Breakfast</button>
-          <button>Lunch</button>
-          <button>Dinner</button>
+          <button onClick={() => handleClick("all")}>All</button>
+          <button onClick={() => handleClick("breakfast")}>Breakfast</button>
+          <button onClick={() => handleClick("lunch")}>Lunch</button>
+          <button onClick={() => handleClick("dinner")}>Dinner</button>
         </FilterContainer>
         <FoodCardContainer>
           <BackgroundImg />
           <FoodCard>
             <div className="items">
-              {data && data.map((elem) =>
-                <div className="foodItem">
+              {data && data.map((elem, index) =>
+                <div key={index} className="foodItem">
                   <div className="foodImg">
                     <img src={elem.image} />
                   </div>
@@ -152,6 +175,7 @@ display:flex;
 padding:1.5rem 1rem;
 justify-content:space-between;
 align-item:center;
+border-bottom: 1px solid grey;
 .logo{
   text-align:center;
 }
@@ -228,7 +252,7 @@ width:100%;
   align-items:center;
   flex-wrap: wrap;
   gap:1.5rem;
-  padding:8rem 1rem;
+  padding:4rem 1rem;
   /* border: 2px solid white; */
   border-radius: 12px;
   height: 300px;
