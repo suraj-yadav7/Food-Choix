@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components";
 import './App.css';
-import dosa from "/src/assests/dosa.jpg";
 
 const App = () => {
 
@@ -46,7 +45,6 @@ const App = () => {
     name: "Roti Veg Curry",
     price: "79",
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
-    image: "/src/assests/dosa.jpg",
     image: "/src/assests/roti-veg-curry.jpg",
     type: "lunch",
   },
@@ -72,8 +70,8 @@ const App = () => {
     type: "dinner",
   },
   ]
-  
-// handling user selection option 
+
+  // handling user selection option 
   const handleClick = (val) => {
     console.log("clicked")
     const expr = val;
@@ -81,7 +79,6 @@ const App = () => {
       case "all":
         setData(foodData);
         break;
-
       case "breakfast":
         setData(foodData.filter((elem) => elem.type == expr))
 
@@ -91,28 +88,23 @@ const App = () => {
       case "dinner":
         setData(foodData.filter((elem) => elem.type == expr))
     }
-
   }
 
-// handle search method
-// this function has mutiple object search
-  const handleSearch = (inVal)=>{
+  // handle search method
+  // this function has mutiple object search
+  const handleSearch = (inVal) => {
     let strVal = inVal.toLowerCase()
-    console.log("the input value", strVal)
-    if(strVal.length >= 3){
-    let searchVal = foodData.filter((elem)=> Object.values(elem).some(val => val.toLowerCase().includes(strVal)))
-      if(searchVal.length >= 1){
+    if (strVal.length >= 3) {
+      let searchVal = foodData.filter((elem) => Object.values(elem).some(val => val.toLowerCase().includes(strVal)))
+      if (searchVal.length >= 1) {
         setData(searchVal)
-      console.log("the search array", searchVal)
       }
     }
-    else{
+    else {
       setData(foodData)
     }
-    
   }
 
-  console.log("the food items", data)
   useEffect(() => {
     setData(foodData)
   }, [])
@@ -125,7 +117,7 @@ const App = () => {
             <h3 className="logoh3">Food Choix</h3>
           </div>
           <div className="search">
-            <input type="text" placeholder="search" onChange={(e)=>{handleSearch(e.target.value)}}/>
+            <input type="text" placeholder="search" onChange={(e) => { handleSearch(e.target.value) }} />
           </div>
         </TopContainer>
         <FilterContainer>
@@ -198,7 +190,6 @@ border-bottom: 1px solid grey;
     color:white;
   }
 }
-
 `;
 
 // Filter Conatiner Styling
@@ -304,8 +295,6 @@ width:100%;
       background-color:#FF6633;
     }
     }
-  
   }
 }
-
 `;
