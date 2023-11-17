@@ -236,7 +236,7 @@ const BackgroundImg = styled.div`
 background-image:url("src/assests/india-food-thali.jpg");
 background-size:cover;
 background-position:center;
- filter: blur(4px);
+ filter: blur(12px);
   z-index: -1;
 `;
 
